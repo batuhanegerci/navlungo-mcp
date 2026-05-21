@@ -603,6 +603,16 @@ async def navlungo_check_multiple_shipments(params: CheckMultipleInput) -> str:
 
 if __name__ == "__main__":
     import uvicorn
+    from starlette.applications import Starlette
+    from starlette.routing import Mount
+
     port = int(os.getenv("PORT", "8000"))
-    app = mcp.streamable_http_app()
+    mcp_app = mcp.streamable_http_app()
+
+    app = Starlette(
+        routes=[
+            Mount("/mcp", app=mcp_app),
+        ]
+    )
+
     uvicorn.run(app, host="0.0.0.0", port=port)
