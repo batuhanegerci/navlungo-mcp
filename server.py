@@ -102,7 +102,7 @@ def _handle_error(resp: httpx.Response) -> str:
 # MCP Sunucusu
 # ---------------------------------------------------------------------------
 
-mcp = FastMCP("navlungo_mcp")
+mcp = FastMCP("navlungo_mcp", host="0.0.0.0", allowed_hosts=["*"])
 
 
 # ---------------------  Gönderi Oluşturma  ---------------------------------
@@ -606,4 +606,5 @@ if __name__ == "__main__":
     mcp.settings.host = "0.0.0.0"
     mcp.settings.port = port
     mcp.settings.streamable_http_path = "/mcp"
+    mcp.settings.allowed_hosts = ["*"]
     mcp.run(transport="streamable-http")
