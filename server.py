@@ -10,6 +10,7 @@ from typing import Optional
 from pydantic import BaseModel, Field, ConfigDict
 import httpx
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 
 # ---------------------------------------------------------------------------
 # Sabitler
@@ -102,7 +103,12 @@ def _handle_error(resp: httpx.Response) -> str:
 # MCP Sunucusu
 # ---------------------------------------------------------------------------
 
-mcp = FastMCP("navlungo_mcp", host="0.0.0.0", allowed_hosts=["*"])
+mcp = FastMCP(
+    "navlungo_mcp",
+    transport_security=TransportSecuritySettings(
+        enable_dns_rebinding_protection=False
+    ),
+)
 
 
 # ---------------------  Gönderi Oluşturma  ---------------------------------
@@ -606,5 +612,4 @@ if __name__ == "__main__":
     mcp.settings.host = "0.0.0.0"
     mcp.settings.port = port
     mcp.settings.streamable_http_path = "/mcp"
-    mcp.settings.allowed_hosts = ["*"]
     mcp.run(transport="streamable-http")
